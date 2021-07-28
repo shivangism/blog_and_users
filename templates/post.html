@@ -35,7 +35,7 @@
 
 
 <!--           Comments Area -->
-            {%if user_logged_in%}
+            {%if current_user.is_active%}
               <div class="container">
                             {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
                         </div>
