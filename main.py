@@ -1,25 +1,26 @@
+import os
+import smtplib
 from datetime import date
 from functools import wraps
 from flask import Flask, render_template, redirect, url_for, flash, abort, request
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
 from flask_gravatar import Gravatar
-from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user, user_logged_in
+from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
-import smtplib
 
 MY_MAIL = 'shivangrawatiitism@gmail.com'
-MY_PASSWORD = '*******'
+MY_PASSWORD = os.environ.get("EMAIL_PASSWORD")
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 ckeditor = CKEditor(app)
 Bootstrap(app)
 Gravatar(app)
 
 ##CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", 'sqlite:///blog.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -35,6 +36,7 @@ def send_mail(data):
     mail.sendmail(from_addr=MY_MAIL, to_addrs='shivangrawat@yahoo.com',
                   msg="Subject:Contact alert\n\n"
                       f"Name: {data['name']} \nMail ID: {data['email']} \nPhone number :{data['phone_no']} \n\nMessage :{data['message']}")
+
 
 ##CONFIGURE TABLES
 class BlogPost(db.Model):
