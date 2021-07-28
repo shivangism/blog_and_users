@@ -11,7 +11,7 @@ from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 import smtplib
 
 MY_MAIL = 'shivangrawatiitism@gmail.com'
-MY_PASSWORD = 'tyagi@25dec'
+MY_PASSWORD = '*******'
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 ckeditor = CKEditor(app)
